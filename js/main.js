@@ -1,49 +1,35 @@
 /* ============================================================
-   Francisco Robles · Asesor Inmobiliario GDL — main.js
+   Andrés Orellana · Asesor Vista California Residencial — main.js
    ============================================================ */
 
-/* WhatsApp base — TODO: reemplazar con el número real (52 + 10 dígitos) */
+/* WhatsApp del asesor — TODO: reemplazar con el número real (52 + 10 dígitos).
+   El flyer muestra 33-31-82-70-XX (incompleto). Tel. ventas Vista California: 33 5351 6281 */
 const WHATSAPP_NUMBER = "52XXXXXXXXXX";
 
-/* ---------------- Datos de propiedades (editable) --------------- */
-/* NOTA: las imágenes en assets/ fueron generadas por IA como placeholder.
-   TODO: reemplazar por fotografías reales de cada propiedad. */
+/* ---------------- Modelos de Vista California (editable) ---------------
+   Datos reales del díptico oficial. Imágenes en assets/ generadas por IA
+   al estilo californiano real (TODO: sustituir por render/foto oficial). */
 const propiedades = [
   {
-    id: 1, titulo: "Casa 3 Rec en Zapopan", tipo: "venta",
-    precio: "$3,500,000 MXN", recamaras: 3, banos: 2, m2: 180,
-    colonia: "Jardines del Country",
-    imagen: "assets/p1-zapopan.png"
+    id: 1, modelo: "Ventura", desde: true,
+    precio: "$938,000", cat: "2rec",
+    recamaras: 2, banos: 1, m2: "50.5", cochera: 1, terreno: "6 × 16 m",
+    nota: "Dúplex · planta baja desde $1,160,000",
+    imagen: "assets/m-ventura.png"
   },
   {
-    id: 2, titulo: "Departamento en Providencia", tipo: "renta",
-    precio: "$18,000/mes", recamaras: 2, banos: 1, m2: 90,
-    colonia: "Providencia",
-    imagen: "assets/p2-providencia.png"
+    id: 2, modelo: "Cambria", desde: false,
+    precio: "$1,608,000", cat: "2rec",
+    recamaras: 2, banos: 1.5, m2: "66.6", cochera: 1, terreno: "4.5 × 16 m",
+    nota: "Sala, comedor, cocina y ½ baño en planta baja",
+    imagen: "assets/m-cambria.png"
   },
   {
-    id: 3, titulo: "Casa en Chapalita", tipo: "venta",
-    precio: "$5,200,000 MXN", recamaras: 4, banos: 3, m2: 260,
-    colonia: "Chapalita",
-    imagen: "assets/p3-chapalita.png"
-  },
-  {
-    id: 4, titulo: "Departamento en Américas", tipo: "renta",
-    precio: "$14,500/mes", recamaras: 1, banos: 1, m2: 65,
-    colonia: "Las Américas",
-    imagen: "assets/p4-americas.png"
-  },
-  {
-    id: 5, titulo: "Casa en Tlaquepaque", tipo: "venta",
-    precio: "$2,800,000 MXN", recamaras: 3, banos: 2, m2: 145,
-    colonia: "San Pedro Tlaquepaque",
-    imagen: "assets/p5-tlaquepaque.png"
-  },
-  {
-    id: 6, titulo: "Penthouse en Andares", tipo: "venta",
-    precio: "$9,800,000 MXN", recamaras: 3, banos: 3, m2: 320,
-    colonia: "Andares",
-    imagen: "assets/p6-andares.png"
+    id: 3, modelo: "Catalina", desde: false,
+    precio: "$1,998,000", cat: "3rec",
+    recamaras: 3, banos: 2, m2: "84.1", cochera: 2, terreno: "5 × 16 m",
+    nota: "Recámara en planta baja · cochera para 2 autos",
+    imagen: "assets/m-catalina.png"
   }
 ];
 
@@ -52,10 +38,10 @@ const ICO = (id) => `<svg class="ico" aria-hidden="true"><use href="#${id}"/></s
 
 /* ----------------- Testimonios (editable) ----------------------- */
 const testimonios = [
-  { texto: "Francisco nos acompañó en todo momento. Encontramos la casa de nuestros sueños en Zapopan y el proceso fue clarísimo de principio a fin.", nombre: "María y Jorge", colonia: "Jardines del Country", foto: "https://i.pravatar.cc/128?img=32" },
-  { texto: "Vendí mi departamento más rápido de lo que imaginé y al precio que esperaba. Su conocimiento del mercado tapatío es impresionante.", nombre: "Ricardo M.", colonia: "Providencia", foto: "https://i.pravatar.cc/128?img=12" },
-  { texto: "Como compradores primerizos teníamos mil dudas. Francisco nos explicó cada paso legal con paciencia. 100% recomendado.", nombre: "Ana Sofía", colonia: "Chapalita", foto: "https://i.pravatar.cc/128?img=45" },
-  { texto: "Profesional, honesto y siempre disponible. Rentar nuestra propiedad con él fue una experiencia sin estrés.", nombre: "Familia Gutiérrez", colonia: "Las Américas", foto: "https://i.pravatar.cc/128?img=20" }
+  { texto: "Andrés nos acompañó en todo el proceso de nuestro crédito INFONAVIT. Estrenamos casa en Vista California sin enganche y con entrega inmediata.", nombre: "María y Jorge", colonia: "Modelo Catalina", foto: "https://i.pravatar.cc/128?img=32" },
+  { texto: "Como compradores primerizos teníamos mil dudas. Nos explicó cada paso con paciencia y nos consiguió el mejor modelo para nuestro presupuesto.", nombre: "Ricardo M.", colonia: "Modelo Ventura", foto: "https://i.pravatar.cc/128?img=12" },
+  { texto: "El fraccionamiento es hermoso y muy seguro. Andrés fue honesto y siempre disponible. 100% recomendado para estrenar tu primera casa.", nombre: "Ana Sofía", colonia: "Modelo Cambria", foto: "https://i.pravatar.cc/128?img=45" },
+  { texto: "Nos encantó la seguridad 24/7 y el parque central para los niños. Todo el trámite fue rápido y sin complicaciones gracias a su asesoría.", nombre: "Familia Gutiérrez", colonia: "Modelo Catalina", foto: "https://i.pravatar.cc/128?img=20" }
 ];
 
 /* ----------------- Helpers WhatsApp ----------------------------- */
@@ -67,23 +53,25 @@ function waLink(mensaje) {
 const grid = document.getElementById("propertiesGrid");
 
 function renderPropiedades(filtro = "todos") {
-  const lista = filtro === "todos" ? propiedades : propiedades.filter(p => p.tipo === filtro);
+  const lista = filtro === "todos" ? propiedades : propiedades.filter(p => p.cat === filtro);
   grid.innerHTML = lista.map((p, i) => `
-    <article class="prop-card" data-tipo="${p.tipo}" style="animation-delay:${i * 0.06}s">
+    <article class="prop-card" data-cat="${p.cat}" style="animation-delay:${i * 0.06}s">
       <div class="prop-media">
-        <img src="${p.imagen}" alt="${p.titulo}, ${p.colonia}" loading="lazy" width="400" height="280" />
-        <span class="prop-tag ${p.tipo}">${p.tipo === "venta" ? "En venta" : "En renta"}</span>
+        <img src="${p.imagen}" alt="Modelo ${p.modelo}, Vista California Residencial" loading="lazy" width="400" height="267" />
+        <span class="prop-tag entrega">Entrega inmediata</span>
       </div>
       <div class="prop-body">
-        <p class="prop-colonia">${ICO("i-pin")} ${p.colonia}</p>
-        <h3>${p.titulo}</h3>
-        <p class="prop-price">${p.precio}</p>
+        <p class="prop-colonia">${ICO("i-pin")} Vista California Residencial</p>
+        <h3>Modelo ${p.modelo}</h3>
+        <p class="prop-price">${p.desde ? '<span class="prop-desde">Desde</span> ' : ''}${p.precio}<span class="prop-mxn"> MXN</span></p>
         <div class="prop-feats">
           <span>${ICO("i-bed")} ${p.recamaras} rec</span>
           <span>${ICO("i-bath")} ${p.banos} baños</span>
           <span>${ICO("i-area")} ${p.m2} m²</span>
+          <span>${ICO("i-car")} ${p.cochera} ${p.cochera > 1 ? "autos" : "auto"}</span>
         </div>
-        <a class="btn btn-outline" href="${waLink(`Hola Francisco, me interesa la propiedad: ${p.titulo}`)}" target="_blank" rel="noopener">Ver detalles</a>
+        <p class="prop-nota">${p.nota}</p>
+        <a class="btn btn-outline" href="${waLink(`Hola Andrés, me interesa el modelo ${p.modelo} de Vista California. ¿Me das más información?`)}" target="_blank" rel="noopener">Más información</a>
       </div>
     </article>
   `).join("");
@@ -242,7 +230,7 @@ form.addEventListener("submit", (e) => {
     return;
   }
   const nombre = form.nombre.value.trim().split(" ")[0];
-  successMsg.textContent = `✅ ¡Gracias ${nombre}! Francisco te contactará pronto.`;
+  successMsg.textContent = `✅ ¡Gracias ${nombre}! Andrés te contactará pronto.`;
   successMsg.hidden = false;
   form.reset();
   /* TODO: integrar envío real (email / backend / WhatsApp API) si se desea. */

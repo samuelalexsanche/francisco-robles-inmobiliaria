@@ -100,7 +100,7 @@ section[id] { scroll-margin-top: 84px; }
 
 /* ---------------------------- Hero ------------------------------ */
 .hero { position: relative; min-height: 94vh; display: flex; align-items: flex-end; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; z-index: 0; background: url("../assets/hero.png") center/cover no-repeat; transform: scale(1.04); animation: heroZoom 16s ease-out forwards; }
+.hero-bg { position: absolute; inset: 0; z-index: 0; background: url("../assets/vc-hero.png") center/cover no-repeat; transform: scale(1.04); animation: heroZoom 16s ease-out forwards; }
 @keyframes heroZoom { to { transform: scale(1); } }
 .hero-scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(30,19,11,.86) 0%, rgba(30,19,11,.42) 42%, rgba(30,19,11,.18) 70%, rgba(30,19,11,.32) 100%); }
 .hero-inner { position: relative; z-index: 2; max-width: var(--maxw); margin: 0 auto; padding: 0 28px 88px; width: 100%; }
@@ -113,6 +113,24 @@ section[id] { scroll-margin-top: 84px; }
 .stat-num { font-family: var(--font-display); font-weight: 600; font-size: 2.5rem; color: #F2DFB4; line-height: 1; }
 .stat-label { font-size: 12.5px; color: rgba(251,247,240,.82); margin-top: 6px; letter-spacing: .02em; }
 .stat-sep { width: 1px; height: 44px; background: rgba(251,247,240,.28); }
+
+/* ------------------------ Financiamiento band ------------------ */
+.finance { background: var(--color-cafe-dark); color: var(--color-crema); }
+.finance-inner { max-width: var(--maxw); margin: 0 auto; padding: 22px 28px; display: flex; align-items: center; justify-content: center; gap: 16px 26px; flex-wrap: wrap; }
+.finance-item { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 600; color: #fff; }
+.finance-item .ico { width: 18px; height: 18px; color: var(--color-dorado); }
+.finance-sep { width: 1px; height: 24px; background: rgba(246,241,234,.25); }
+.finance-label { font-size: 12.5px; letter-spacing: .04em; color: rgba(246,241,234,.7); }
+.finance-chips { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+.chip { font-size: 11.5px; font-weight: 600; letter-spacing: .03em; padding: 6px 13px; border-radius: 100px; background: rgba(194,162,76,.18); border: 1px solid rgba(194,162,76,.45); color: #F2DFB4; }
+
+/* --------------------------- Amenidades ------------------------ */
+.amenities { background: var(--color-crema-2); padding: 110px 0; }
+.amenities-grid { max-width: 1000px; margin: 0 auto; padding: 0 28px; list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.amenity { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; background: var(--color-blanco); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 30px 18px; font-size: 14px; font-weight: 500; color: var(--color-cafe-dark); transition: transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease); }
+.amenity:hover { transform: translateY(-4px); border-color: var(--color-dorado); box-shadow: var(--shadow-md); }
+.amenity-icon { display: inline-flex; width: 52px; height: 52px; align-items: center; justify-content: center; border-radius: 50%; background: rgba(194,162,76,.13); color: var(--color-cafe); }
+.amenity-icon .ico { width: 25px; height: 25px; }
 
 /* --------------------------- Eyebrow --------------------------- */
 .eyebrow { display: inline-block; font-size: 11.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--color-dorado); margin-bottom: 14px; position: relative; padding-left: 30px; }
@@ -168,7 +186,11 @@ section[id] { scroll-margin-top: 84px; }
 .prop-tag { position: absolute; top: 16px; left: 16px; font-size: 10.5px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: #fff; padding: 6px 14px; border-radius: 100px; backdrop-filter: blur(4px); }
 .prop-tag.venta { background: rgba(194,162,76,.92); }
 .prop-tag.renta { background: rgba(74,51,34,.86); }
+.prop-tag.entrega { background: rgba(31,174,84,.92); }
 .prop-body { padding: 24px 24px 26px; }
+.prop-desde { font-family: var(--font-body); font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-muted); vertical-align: middle; }
+.prop-mxn { font-family: var(--font-body); font-size: .78rem; font-weight: 500; color: var(--color-muted); }
+.prop-nota { font-size: 12.5px; color: var(--color-muted); margin: -6px 0 18px; line-height: 1.5; }
 .prop-colonia { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--color-dorado); margin-bottom: 8px; font-weight: 500; letter-spacing: .02em; }
 .prop-colonia .ico { width: 14px; height: 14px; }
 .prop-body h3 { font-size: 1.3rem; margin-bottom: 14px; color: var(--color-cafe-dark); }
@@ -279,6 +301,7 @@ section[id] { scroll-margin-top: 84px; }
   .about-photo { max-width: 460px; margin: 0 auto; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .properties-grid { grid-template-columns: repeat(2, 1fr); }
+  .amenities-grid { grid-template-columns: repeat(2, 1fr); }
   .contact-cols { grid-template-columns: 1fr; gap: 36px; }
   .timeline { grid-template-columns: repeat(2, 1fr); gap: 40px; }
   .timeline::before { display: none; }
@@ -295,7 +318,8 @@ section[id] { scroll-margin-top: 84px; }
   .hero-stats { gap: 20px; }
   .stat-num { font-size: 2rem; }
   .stat-sep { height: 36px; }
-  .about, .services, .properties, .testimonials, .process, .contact { padding: 80px 0; }
+  .about, .services, .properties, .testimonials, .process, .contact, .amenities { padding: 80px 0; }
+  .finance-sep { display: none; }
   .about-photo-tag { right: 12px; padding: 14px 18px; }
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
   .footer-brand { grid-column: 1 / -1; }
