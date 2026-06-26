@@ -16,7 +16,7 @@ Datos de los 3 modelos tomados del díptico oficial.
 ## 2. Imágenes
 > ⚠️ Las imágenes en `assets/` son **generadas por IA (KIE.ai)** al estilo californiano
 > real, como placeholder. Sustitúyelas por renders/fotos oficiales cuando los tengas.
-- [ ] **Foto profesional real de Andrés** — `assets/about.png` (sección "Asesor"). Hoy es un rostro IA.
+- [x] **Foto profesional real de Andrés** — `assets/about.png` (sección "Asesor"). Ya colocada (recortada de su foto de perfil, B/N).
 - [ ] **Render/fotos oficiales de los 3 modelos** — `assets/m-ventura.png`, `assets/m-cambria.png`, `assets/m-catalina.png`
 - [ ] **Imagen del hero** — `assets/vc-hero.png` (opcional: usar foto real del fraccionamiento)
 - Imágenes sin usar de la versión anterior (se pueden borrar): `assets/hero.png`, `assets/francisco.png`, `assets/p1..p6-*.png`

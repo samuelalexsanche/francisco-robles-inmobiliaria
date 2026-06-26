@@ -141,7 +141,7 @@ section[id] { scroll-margin-top: 84px; }
 .about { background: var(--color-crema); padding: 120px 0; }
 .about-inner { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; display: grid; grid-template-columns: 0.85fr 1fr; gap: 70px; align-items: center; }
 .about-photo { position: relative; }
-.about-photo img { width: 100%; height: auto; border-radius: var(--radius); box-shadow: var(--shadow-md); aspect-ratio: 4/5; object-fit: cover; }
+.about-photo img { width: 100%; height: auto; border-radius: var(--radius); box-shadow: var(--shadow-md); aspect-ratio: 4/5; object-fit: cover; object-position: center 22%; }
 .about-photo-tag { position: absolute; right: -18px; bottom: 32px; background: var(--color-cafe-dark); color: #fff; padding: 18px 24px; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); text-align: center; }
 .apt-num { display: block; font-family: var(--font-display); font-size: 2rem; font-weight: 600; color: #F2DFB4; line-height: 1; }
 .apt-label { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; margin-top: 6px; color: rgba(255,255,255,.82); }
