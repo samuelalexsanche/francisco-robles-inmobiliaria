@@ -9,27 +9,53 @@ const WHATSAPP_NUMBER = "52XXXXXXXXXX";
 /* ---------------- Modelos de Vista California (editable) ---------------
    Datos reales del díptico oficial. Imágenes en assets/ generadas por IA
    al estilo californiano real (TODO: sustituir por render/foto oficial). */
+/* Helper de galería: G("archivo", "etiqueta") -> {src, cap} */
+const G = (file, cap) => ({ src: `assets/${file}.png`, cap });
+
 const propiedades = [
   {
     id: 1, modelo: "Ventura", desde: true,
     precio: "$938,000", cat: "2rec",
     recamaras: 2, banos: 1, m2: "50.5", cochera: 1, terreno: "6 × 16 m",
     nota: "Dúplex · planta baja desde $1,160,000",
-    imagen: "assets/m-ventura.png"
+    cover: "assets/ventura_pb6.png",
+    galeria: [
+      G("ventura_pb6", "Fachada del conjunto"),
+      G("ventura_pa1", "Planta alta"), G("ventura_pa7", "Planta alta"),
+      G("ventura_pa2", "Planta alta"), G("ventura_pa3", "Planta alta"),
+      G("ventura_pa4", "Planta alta"), G("ventura_pa5", "Planta alta"),
+      G("ventura_pa6", "Planta alta"),
+      G("ventura_pb", "Planta baja"), G("ventura_pb2", "Planta baja"),
+      G("ventura_pb3", "Planta baja"), G("ventura_pb4", "Planta baja"),
+      G("ventura_pb5", "Planta baja"), G("ventura_pb7", "Planta baja"),
+      G("ventura_pb8", "Planta baja")
+    ]
   },
   {
     id: 2, modelo: "Cambria", desde: false,
     precio: "$1,608,000", cat: "2rec",
     recamaras: 2, banos: 1.5, m2: "66.6", cochera: 1, terreno: "4.5 × 16 m",
     nota: "Sala, comedor, cocina y ½ baño en planta baja",
-    imagen: "assets/m-cambria.png"
+    cover: "assets/cambria7.png",
+    galeria: [
+      G("cambria7", "Fachada del conjunto"),
+      G("cambria8", "Interior"), G("cambria1", "Interior"),
+      G("cambria2", "Interior"), G("cambria5", "Interior"),
+      G("cambria6", "Interior"), G("cambria3", "Interior"),
+      G("cambria4", "Interior")
+    ]
   },
   {
     id: 3, modelo: "Catalina", desde: false,
     precio: "$1,998,000", cat: "3rec",
     recamaras: 3, banos: 2, m2: "84.1", cochera: 2, terreno: "5 × 16 m",
     nota: "Recámara en planta baja · cochera para 2 autos",
-    imagen: "assets/m-catalina.png"
+    cover: "assets/catalina1.png",
+    galeria: [
+      G("catalina1", "Interior"), G("catalina6", "Interior"),
+      G("catalina2", "Interior"), G("catalina5", "Interior"),
+      G("catalina3", "Interior"), G("catalina4", "Interior")
+    ]
   }
 ];
 
@@ -56,10 +82,11 @@ function renderPropiedades(filtro = "todos") {
   const lista = filtro === "todos" ? propiedades : propiedades.filter(p => p.cat === filtro);
   grid.innerHTML = lista.map((p, i) => `
     <article class="prop-card" data-cat="${p.cat}" style="animation-delay:${i * 0.06}s">
-      <div class="prop-media">
-        <img src="${p.imagen}" alt="Modelo ${p.modelo}, Vista California Residencial" loading="lazy" width="400" height="267" />
+      <button type="button" class="prop-media" data-gallery="${p.id}" aria-label="Ver fotos del modelo ${p.modelo}">
+        <img src="${p.cover}" alt="Modelo ${p.modelo}, Vista California Residencial" loading="lazy" width="400" height="267" />
         <span class="prop-tag entrega">Entrega inmediata</span>
-      </div>
+        <span class="prop-count">${ICO("i-gallery")} ${p.galeria.length} fotos</span>
+      </button>
       <div class="prop-body">
         <p class="prop-colonia">${ICO("i-pin")} Vista California Residencial</p>
         <h3>Modelo ${p.modelo}</h3>
@@ -71,7 +98,10 @@ function renderPropiedades(filtro = "todos") {
           <span>${ICO("i-car")} ${p.cochera} ${p.cochera > 1 ? "autos" : "auto"}</span>
         </div>
         <p class="prop-nota">${p.nota}</p>
-        <a class="btn btn-outline" href="${waLink(`Hola Andrés, me interesa el modelo ${p.modelo} de Vista California. ¿Me das más información?`)}" target="_blank" rel="noopener">Más información</a>
+        <div class="prop-actions">
+          <button type="button" class="btn btn-soft" data-gallery="${p.id}">${ICO("i-gallery")} Ver fotos</button>
+          <a class="btn btn-outline" href="${waLink(`Hola Andrés, me interesa el modelo ${p.modelo} de Vista California. ¿Me das más información?`)}" target="_blank" rel="noopener">Más información</a>
+        </div>
       </div>
     </article>
   `).join("");
@@ -86,6 +116,55 @@ document.querySelectorAll(".pill").forEach(btn => {
     renderPropiedades(btn.dataset.filter);
   });
 });
+
+/* =================== Lightbox de galería ======================= */
+const lightbox = document.getElementById("lightbox");
+const lbImg = document.getElementById("lbImg");
+const lbCap = document.getElementById("lbCap");
+const lbCount = document.getElementById("lbCount");
+const lbTitle = document.getElementById("lbTitle");
+let lbGallery = [];
+let lbIndex = 0;
+let lbReturnFocus = null;
+
+function lbShow(i) {
+  lbIndex = (i + lbGallery.length) % lbGallery.length;
+  const item = lbGallery[lbIndex];
+  lbImg.src = item.src;
+  lbImg.alt = `${lbTitle.textContent} — ${item.cap}`;
+  lbCap.textContent = item.cap;
+  lbCount.textContent = `${lbIndex + 1} / ${lbGallery.length}`;
+}
+function openLightbox(modelId, startAt = 0) {
+  const p = propiedades.find(x => x.id === Number(modelId));
+  if (!p) return;
+  lbReturnFocus = document.activeElement;
+  lbGallery = p.galeria;
+  lbTitle.textContent = `Modelo ${p.modelo}`;
+  lbShow(startAt);
+  lightbox.hidden = false;
+  document.body.style.overflow = "hidden";
+  document.getElementById("lbNext").focus();
+  document.addEventListener("keydown", onLbKey);
+}
+function closeLightbox() {
+  lightbox.hidden = true;
+  document.body.style.overflow = "";
+  document.removeEventListener("keydown", onLbKey);
+  if (lbReturnFocus) lbReturnFocus.focus();
+}
+function onLbKey(e) {
+  if (e.key === "Escape") closeLightbox();
+  else if (e.key === "ArrowRight") lbShow(lbIndex + 1);
+  else if (e.key === "ArrowLeft") lbShow(lbIndex - 1);
+}
+grid.addEventListener("click", (e) => {
+  const trigger = e.target.closest("[data-gallery]");
+  if (trigger) openLightbox(trigger.dataset.gallery);
+});
+document.getElementById("lbNext").addEventListener("click", () => lbShow(lbIndex + 1));
+document.getElementById("lbPrev").addEventListener("click", () => lbShow(lbIndex - 1));
+lightbox.querySelectorAll("[data-close-lb]").forEach(el => el.addEventListener("click", closeLightbox));
 
 /* =================== Carrusel de testimonios =================== */
 const track = document.getElementById("carouselTrack");

@@ -14,12 +14,14 @@ Datos de los 3 modelos tomados del díptico oficial.
 - [x] Web oficial: **vistacalifornia.mx** (ya enlazada en el footer)
 
 ## 2. Imágenes
-> ⚠️ Las imágenes en `assets/` son **generadas por IA (KIE.ai)** al estilo californiano
-> real, como placeholder. Sustitúyelas por renders/fotos oficiales cuando los tengas.
 - [x] **Foto profesional real de Andrés** — `assets/about.png` (sección "Asesor"). Ya colocada (recortada de su foto de perfil, B/N).
-- [ ] **Render/fotos oficiales de los 3 modelos** — `assets/m-ventura.png`, `assets/m-cambria.png`, `assets/m-catalina.png`
-- [ ] **Imagen del hero** — `assets/vc-hero.png` (opcional: usar foto real del fraccionamiento)
-- Imágenes sin usar de la versión anterior (se pueden borrar): `assets/hero.png`, `assets/francisco.png`, `assets/p1..p6-*.png`
+- [x] **Fotos reales de los 3 modelos** — cada modelo tiene galería con lightbox:
+  - Ventura: `ventura_pb6` (fachada) + `ventura_pa1..7` (planta alta) + `ventura_pb..pb8` (planta baja)
+  - Cambria: `cambria1..8` (`cambria7` = fachada del conjunto)
+  - Catalina: `catalina1..6` (interiores)
+  - Portada y orden editables en el array `propiedades` de `js/main.js` (campos `cover` y `galeria`).
+- [ ] **Imagen del hero** — `assets/vc-hero.png` es generada por IA (opcional: cambiar por foto real del fraccionamiento)
+- Las imágenes IA/placeholder anteriores ya se eliminaron del repo.
 
 ## 3. Datos a confirmar con la desarrolladora
 - [ ] **Precios vigentes** de los 3 modelos (`js/main.js`, array `propiedades`)

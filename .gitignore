@@ -1,3 +1,6 @@
 .img-tasks.txt
 .poll.sh
 .claude/
+
+.DS_Store
+**/.DS_Store
