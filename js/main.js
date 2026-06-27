@@ -135,17 +135,19 @@ function lbShow(i) {
   lbCap.textContent = item.cap;
   lbCount.textContent = `${lbIndex + 1} / ${lbGallery.length}`;
 }
-function openLightbox(modelId, startAt = 0) {
-  const p = propiedades.find(x => x.id === Number(modelId));
-  if (!p) return;
+function openGallery(gallery, title, startAt = 0) {
   lbReturnFocus = document.activeElement;
-  lbGallery = p.galeria;
-  lbTitle.textContent = `Modelo ${p.modelo}`;
+  lbGallery = gallery;
+  lbTitle.textContent = title;
   lbShow(startAt);
   lightbox.hidden = false;
   document.body.style.overflow = "hidden";
   document.getElementById("lbNext").focus();
   document.addEventListener("keydown", onLbKey);
+}
+function openLightbox(modelId, startAt = 0) {
+  const p = propiedades.find(x => x.id === Number(modelId));
+  if (p) openGallery(p.galeria, `Modelo ${p.modelo}`, startAt);
 }
 function closeLightbox() {
   lightbox.hidden = true;
@@ -165,6 +167,29 @@ grid.addEventListener("click", (e) => {
 document.getElementById("lbNext").addEventListener("click", () => lbShow(lbIndex + 1));
 document.getElementById("lbPrev").addEventListener("click", () => lbShow(lbIndex - 1));
 lightbox.querySelectorAll("[data-close-lb]").forEach(el => el.addEventListener("click", closeLightbox));
+
+/* =================== Galería de Entorno ======================== */
+const entorno = [
+  G("entorno1", "Acceso y vista al valle"),
+  G("entorno5", "Andadores al atardecer"),
+  G("entorno6", "Parque central"),
+  G("entorno4", "Juegos infantiles"),
+  G("entorno3", "Áreas verdes"),
+  G("entorno2", "El fraccionamiento")
+];
+const entornoGrid = document.getElementById("entornoGrid");
+if (entornoGrid) {
+  entornoGrid.innerHTML = entorno.map((e, i) => `
+    <button type="button" class="entorno-item" data-egal="${i}" aria-label="Ver foto: ${e.cap}">
+      <img src="${e.src}" alt="${e.cap} — Vista California" loading="lazy" />
+      <span class="entorno-cap">${ICO("i-pin")} ${e.cap}</span>
+    </button>
+  `).join("");
+  entornoGrid.addEventListener("click", (ev) => {
+    const t = ev.target.closest("[data-egal]");
+    if (t) openGallery(entorno, "Entorno · Vista California", Number(t.dataset.egal));
+  });
+}
 
 /* =================== Carrusel de testimonios =================== */
 const track = document.getElementById("carouselTrack");
